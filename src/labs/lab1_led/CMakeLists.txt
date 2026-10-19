@@ -8,6 +8,7 @@ target_link_libraries(${_target} PRIVATE
     ${PROJECT_NAME}::project_options
     ${PROJECT_NAME}::compiler_warnings
     bsp::runtime
+    freertos_kernel
     bsp::led
 )
 set(_map_file "$<TARGET_FILE_DIR:${_target}>/$<TARGET_PROPERTY:NAME>.map")

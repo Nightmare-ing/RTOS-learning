@@ -141,6 +141,22 @@ add_library(bsp::runtime ALIAS bsp_runtime)
 
 
 # ======================================================================
+# FreeRTOS Runtime Environment
+# ======================================================================
+target_link_libraries(freertos_config INTERFACE
+    bsp::mcu_config
+    stm32::cmsis
+)
+target_include_directories(freertos_config SYSTEM INTERFACE
+    ${CMAKE_CURRENT_LIST_DIR}/freertos_config
+    ${freertos_kernel_SOURCE_DIR}/include
+)
+target_compile_definitions(freertos_config INTERFACE
+    projCOVERAGE_TEST=0
+    STM32_CMSIS_HEADER="${STM32_CMSIS_HEADER}"
+)
+
+# ======================================================================
 # Add Board Adapters
 # ======================================================================
 add_subdirectory(boards/${BOARD})

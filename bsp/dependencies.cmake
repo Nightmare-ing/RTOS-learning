@@ -11,7 +11,7 @@ FetchContent_Declare(
     EXCLUDE_FROM_ALL
 )
 
-# ST CMSIS Device F1
+# ST CMSIS Device
 FetchContent_Declare(
     stm32_cmsis
     GIT_REPOSITORY https://github.com/STMicroelectronics/cmsis-device-${MCU_FAMILY_SHORT}.git
@@ -44,8 +44,26 @@ add_library(stm32_cmsis INTERFACE)
 target_include_directories(stm32_cmsis SYSTEM INTERFACE
     ${stm32_cmsis_SOURCE_DIR}/Include
 )
+target_link_libraries(stm32_cmsis INTERFACE
+    arm::cmsis
+)
 target_compile_definitions(stm32_cmsis INTERFACE
     ${MCU_MODEL}
 )
 add_library(stm32::cmsis ALIAS stm32_cmsis)
 
+# ======================================================================
+# FreeRTOS Kernel
+# ======================================================================
+FetchContent_Declare(
+    freertos_kernel
+    GIT_REPOSITORY https://github.com/FreeRTOS/FreeRTOS-Kernel.git
+    GIT_TAG ${FREERTOS_KERNEL_TAG}
+    GIT_SHALLOW TRUE
+    SYSTEM
+    EXCLUDE_FROM_ALL
+)
+
+add_library(freertos_config INTERFACE)
+
+FetchContent_MakeAvailable(freertos_kernel)
