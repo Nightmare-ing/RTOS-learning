@@ -57,7 +57,7 @@
  * settings.  Your application will certainly need a different value so set this
  * correctly. This is very often, but not always, equal to the main system clock
  * frequency. */
-#define configCPU_CLOCK_HZ ((unsigned long)20000000)
+#define configCPU_CLOCK_HZ SystemCoreClock
 
 /* configSYSTICK_CLOCK_HZ is an optional parameter for ARM Cortex-M ports only.
  *
@@ -81,7 +81,7 @@
 
 /* configTICK_RATE_HZ sets frequency of the tick interrupt in Hz, normally
  * calculated from the configCPU_CLOCK_HZ value. */
-#define configTICK_RATE_HZ 100
+#define configTICK_RATE_HZ 1000
 
 /* Set configUSE_PREEMPTION to 1 to use pre-emptive scheduling.  Set
  * configUSE_PREEMPTION to 0 to use co-operative scheduling.
@@ -93,7 +93,7 @@
  * configUSE_TIME_SLICING to 0 to prevent the scheduler switching between Ready
  * state tasks just because there was a tick interrupt.  See
  * https://freertos.org/single-core-amp-smp-rtos-scheduling.html. */
-#define configUSE_TIME_SLICING 0
+#define configUSE_TIME_SLICING 1
 
 /* Set configUSE_PORT_OPTIMISED_TASK_SELECTION to 1 to select the next task to
  * run using an algorithm optimised to the instruction set of the target
@@ -101,7 +101,7 @@
  * 0 to select the next task to run using a generic C algorithm that works for
  * all FreeRTOS ports.  Not all FreeRTOS ports have this option.  Defaults to 0
  * if left undefined. */
-#define configUSE_PORT_OPTIMISED_TASK_SELECTION 0
+#define configUSE_PORT_OPTIMISED_TASK_SELECTION 1
 
 /* Set configUSE_TICKLESS_IDLE to 1 to use the low power tickless mode.  Set to
  * 0 to keep the tick interrupt running at all times.  Not all FreeRTOS ports
@@ -113,7 +113,7 @@
 /* configMAX_PRIORITIES Sets the number of available task priorities.  Tasks can
  * be assigned priorities of 0 to (configMAX_PRIORITIES - 1).  Zero is the
  * lowest priority. */
-#define configMAX_PRIORITIES 5
+#define configMAX_PRIORITIES 31
 
 /* configMINIMAL_STACK_SIZE defines the size of the stack used by the Idle task
  * (in words, not in bytes!).  The kernel does not use this constant for any
@@ -157,7 +157,7 @@
 /* configQUEUE_REGISTRY_SIZE sets the maximum number of queues and semaphores
  * that can be referenced from the queue registry.  Only required when using a
  * kernel aware debugger.  Defaults to 0 if left undefined. */
-#define configQUEUE_REGISTRY_SIZE 0
+#define configQUEUE_REGISTRY_SIZE 8
 
 /* Set configENABLE_BACKWARD_COMPATIBILITY to 1 to map function names and
  * datatypes from old version of FreeRTOS to their latest equivalent.  Defaults
@@ -238,13 +238,13 @@
  * task.  See
  * https://www.freertos.org/RTOS-software-timer-service-daemon-task.html Only
  * used if configUSE_TIMERS is set to 1. */
-#define configTIMER_TASK_STACK_DEPTH configMINIMAL_STACK_SIZE
+#define configTIMER_TASK_STACK_DEPTH (configMINIMAL_STACK_SIZE * 2)
 
 /* configTIMER_QUEUE_LENGTH sets the length of the queue (the number of discrete
  * items the queue can hold) used to send commands to the timer task.  See
  * https://www.freertos.org/RTOS-software-timer-service-daemon-task.html  Only
  * used if configUSE_TIMERS is set to 1. */
-#define configTIMER_QUEUE_LENGTH 10
+#define configTIMER_QUEUE_LENGTH 5
 
 /******************************************************************************/
 /* Event Group related definitions. *******************************************/
@@ -277,7 +277,7 @@
  * memory in the build.  Set to 0 to exclude the ability to create statically
  * allocated objects from the build.  Defaults to 0 if left undefined.  See
  * https://www.freertos.org/Static_Vs_Dynamic_Memory_Allocation.html. */
-#define configSUPPORT_STATIC_ALLOCATION 1
+#define configSUPPORT_STATIC_ALLOCATION 0
 
 /* Set configSUPPORT_DYNAMIC_ALLOCATION to 1 to include FreeRTOS API functions
  * that create FreeRTOS objects (tasks, queues, etc.) using dynamically
@@ -291,7 +291,7 @@
  * or heap_4.c are included in the build.  This value is defaulted to 4096 bytes
  * but it must be tailored to each application.  Note the heap will appear in
  * the .bss section.  See https://www.freertos.org/a00111.html. */
-#define configTOTAL_HEAP_SIZE 4096
+#define configTOTAL_HEAP_SIZE ((size_t)(10 * 1024))
 
 /* Set configAPPLICATION_ALLOCATED_HEAP to 1 to have the application allocate
  * the array used as the FreeRTOS heap.  Set to 0 to have the linker allocate
@@ -387,14 +387,14 @@
  * are used by trace and visualisation functions and tools.  Set to 0 to exclude
  * the additional information from the structures. Defaults to 0 if left
  * undefined. */
-#define configUSE_TRACE_FACILITY 0
+#define configUSE_TRACE_FACILITY 1
 
 /* Set to 1 to include the vTaskList() and vTaskGetRunTimeStats() functions in
  * the build.  Set to 0 to exclude these functions from the build.  These two
  * functions introduce a dependency on string formatting functions that would
  * otherwise not exist - hence they are kept separate.  Defaults to 0 if left
  * undefined. */
-#define configUSE_STATS_FORMATTING_FUNCTIONS 0
+#define configUSE_STATS_FORMATTING_FUNCTIONS 1
 
 /******************************************************************************/
 /* Co-routine related definitions. ********************************************/
@@ -653,7 +653,7 @@
 #define configUSE_MUTEXES 1
 #define configUSE_RECURSIVE_MUTEXES 1
 #define configUSE_COUNTING_SEMAPHORES 1
-#define configUSE_QUEUE_SETS 0
+#define configUSE_QUEUE_SETS 1
 #define configUSE_APPLICATION_TASK_TAG 0
 
 /* USE_POSIX_ERRNO enables the task global FreeRTOS_errno variable which will
@@ -671,12 +671,12 @@
 #define INCLUDE_vTaskDelay 1
 #define INCLUDE_xTaskGetSchedulerState 1
 #define INCLUDE_xTaskGetCurrentTaskHandle 1
-#define INCLUDE_uxTaskGetStackHighWaterMark 0
-#define INCLUDE_xTaskGetIdleTaskHandle 0
-#define INCLUDE_eTaskGetState 0
-#define INCLUDE_xTimerPendFunctionCall 0
-#define INCLUDE_xTaskAbortDelay 0
-#define INCLUDE_xTaskGetHandle 0
+#define INCLUDE_uxTaskGetStackHighWaterMark 1
+#define INCLUDE_xTaskGetIdleTaskHandle 1
+#define INCLUDE_eTaskGetState 1
+#define INCLUDE_xTimerPendFunctionCall 1
+#define INCLUDE_xTaskAbortDelay 1
+#define INCLUDE_xTaskGetHandle 1
 #define INCLUDE_xTaskResumeFromISR 1
 
 /******************************************************************************/
