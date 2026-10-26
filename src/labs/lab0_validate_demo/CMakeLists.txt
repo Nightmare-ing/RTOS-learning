@@ -1,4 +1,4 @@
-set(_target ${PROJECT_NAME}_lab1_led)
+set(_target ${PROJECT_NAME}_lab0_validate_demo)
 add_executable(${_target}
     main.c
 )

@@ -1,1 +1,1 @@
-add_subdirectory(labs/lab1_led EXCLUDE_FROM_ALL)
+add_subdirectory(labs/lab0_validate_demo EXCLUDE_FROM_ALL)

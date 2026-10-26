@@ -26,11 +26,11 @@
   ],
   "buildPresets": [
     {
-      "name": "f103-hal-lab1-led",
-      "displayName": "Lab1: Led Blink",
+      "name": "f103-hal-lab0-validate-demo",
+      "displayName": "Lab0: Validate FreeRTOS Porting",
       "configurePreset": "f103-hal",
       "jobs": 0,
-      "targets": ["stm32_template_lab1_led"]
+      "targets": ["stm32_template_lab0_validate_demo"]
     },
     {
       "name": "f103-hal-lab2-key2led",
